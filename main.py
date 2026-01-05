@@ -126,10 +126,10 @@ def handle_workflow_buttons():
         button_label = "🚀 유효 피처 검색"
     elif st.session_state[AppState.SEGMENTATION_RESULTS] is None:
         next_step = "segmentation"
-        button_label = "🤖 AI 세그먼테이션"
+        button_label = "🤖 AI 세그멘테이션"
     else:
         next_step = "end" # 더 이상 진행할 단계가 없으면 종료 유도
-        button_label = "✅ 프로세스 완료"
+        button_label = "✅ 발송"
 
     with col1:
         if st.button(button_label, use_container_width=True):
@@ -221,12 +221,12 @@ def main():
 
     if st.session_state[AppState.STEP] == "segmentation":
         with st.chat_message("assistant"):
-            simulate_progress("머신러닝 기반 랭킹 최적화 및 세그먼테이션을 진행 중입니다...", 1.5)
+            simulate_progress("머신러닝 기반 랭킹 최적화 및 세그멘테이션을 진행 중입니다...", 1.5)
             results = targeting_engine.process_segmentation(
                 st.session_state[AppState.EXTRACTED_DATA],
                 st.session_state[AppState.SELECTED_FEATURES]
             )
-            response_text = f"랭킹 기반 고객 추출 및 **AI 자동 세그먼테이션**이 완료되었습니다."
+            response_text = f"랭킹 기반 고객 추출 및 **AI 세그멘테이션**이 완료되었습니다."
             st.markdown(response_text)
             st.table(results)
             

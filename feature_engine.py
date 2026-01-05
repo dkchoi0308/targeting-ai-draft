@@ -128,7 +128,7 @@ class FeatureSearchEngine:
             results.append({
                 "번호": meta["id"],
                 "피처명": meta["name"],
-                "유형": "Numerical",
+                "카테고리": meta["category"],
                 "유사도": similarity,
                 "사유": reason
             })
