@@ -97,15 +97,33 @@ class CampaignExtractor:
             st.error(f"데이터 추출 중 오류가 발생했습니다: {e}")
             return None
 
+def get_last_modified_time():
+    """프로젝트 내 주요 파일 중 가장 최근에 수정된 시간을 반환합니다."""
+    latest_time = 0
+    # 체크할 주요 파일들
+    target_files = ["main.py", "feature_engine.py", "targeting_engine.py", ".env"]
+    
+    for file in target_files:
+        if os.path.exists(file):
+            mtime = os.path.getmtime(file)
+            if mtime > latest_time:
+                latest_time = mtime
+                
+    if latest_time == 0:
+        return datetime.now()
+        
+    return datetime.fromtimestamp(latest_time)
+
 def initialize_ui():
     """Streamlit 페이지의 기본 UI와 세션 상태를 초기화합니다."""
     st.set_page_config(page_title="Targeting AI Agent", layout="wide", initial_sidebar_state="collapsed")
     
     st.title("🎯 Targeting AI 에이전트")
     
-    # 우측 상단 수정 일자 표시 (현재 시간 반영)
+    # 우측 상단 수정 일자 표시 (가장 최근 파일 수정 시간 반영)
     seoul_tz = pytz.timezone('Asia/Seoul')
-    revised_date = datetime.now(seoul_tz).strftime('%Y-%m-%d %H:%M:%S')
+    last_modified = get_last_modified_time()
+    revised_date = last_modified.astimezone(seoul_tz).strftime('%Y-%m-%d %H:%M:%S')
     st.markdown(
         f"""
         <div style="text-align: right; color: gray; font-size: 0.8rem; margin-top: -45px;">
