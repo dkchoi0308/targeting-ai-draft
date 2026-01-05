@@ -100,7 +100,21 @@ class CampaignExtractor:
 def initialize_ui():
     """Streamlit 페이지의 기본 UI와 세션 상태를 초기화합니다."""
     st.set_page_config(page_title="Targeting AI Agent", layout="wide", initial_sidebar_state="collapsed")
+    
     st.title("🎯 Targeting AI 에이전트")
+    
+    # 우측 상단 수정 일자 표시 (현재 시간 반영)
+    seoul_tz = pytz.timezone('Asia/Seoul')
+    revised_date = datetime.now(seoul_tz).strftime('%Y-%m-%d %H:%M:%S')
+    st.markdown(
+        f"""
+        <div style="text-align: right; color: gray; font-size: 0.8rem; margin-top: -45px;">
+            revised: {revised_date}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
     st.markdown("---")
     
     if AppState.MESSAGES not in st.session_state:
