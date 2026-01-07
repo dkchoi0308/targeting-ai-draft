@@ -81,6 +81,10 @@ class CampaignExtractor:
             else:
                 data["metric_defaulted"] = False
 
+            # 발송 횟수 기본값 설정 (입력값이 없거나 0이면 1회)
+            if not data.get("frequency") or int(data.get("frequency", 1)) == 0:
+                data["frequency"] = 1
+
             # 날짜 및 기간 계산
             start_days = data.get("start_days_relative", 7)
             duration = data.get("duration_days", 1)
@@ -253,12 +257,12 @@ def main():
 
     if st.session_state[AppState.STEP] == "segmentation":
         with st.chat_message("assistant"):
-            simulate_progress("머신러닝 기반 랭킹 최적화 및 세그멘테이션을 진행 중입니다...", 1.5)
+            simulate_progress("AI 기반 랭킹 최적화 및 세그멘테이션을 진행 중입니다...", 1.5)
             results = targeting_engine.process_segmentation(
                 st.session_state[AppState.EXTRACTED_DATA],
                 st.session_state[AppState.SELECTED_FEATURES]
             )
-            response_text = f"랭킹 기반 고객 추출 및 **AI 세그멘테이션**이 완료되었습니다."
+            response_text = f"고객 추출 및 **세그멘테이션**이 완료되었습니다."
             st.markdown(response_text)
             st.table(results)
             
